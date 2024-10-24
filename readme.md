@@ -16,7 +16,8 @@ Enum choice{
     FAN3    = 100101101101,
     FAN2    = 101100101101,
     FAN1    = 100101101100,
-    FAN-OFF = 100101101100
+    FAN-OFF = 100101101100,
+    PAIR    = 100100101100
 }
 struct Command {
     bit[6] remote-serial;
@@ -33,4 +34,7 @@ it is weirdly not 8 bit command size
 <br>
 ## Vulnerabilities In The Protocol
 ### Simple RF replay attack
-the messages are static therfore a simple replay attack works just fine as long as you know the serial
+the messages are static therfore a simple replay attack works just fine as long as you paired the serial
+<br>
+in theory you can just broadcast at high dBm pair command and then <br>
+any other command and all devices that are in signal range will act upon command
