@@ -9,6 +9,10 @@ Modulation: ASK/OOK (Amplitude Shift Keying/ON-OFF Keying)
 <br>
 Frequency: 433.92M (common unlicensed frequency for garage remote/car remote/iot...)
 <br>
+carrier signal: 22k
+<br>
+symbol length: 1900
+<br>
 
 ``` py
 Psuedo Protocol definition
