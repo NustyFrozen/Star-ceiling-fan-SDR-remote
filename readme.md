@@ -43,4 +43,4 @@ any other command and all devices that are in signal range will act upon command
 doing it is highly illegal
 
 ### Demo video:
-[![demo.mp4](/images/remote.jpg)](/images/demo.mp4)
+<video src="/images/demo.mp4" width="320" height="240" controls></video>
