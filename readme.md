@@ -43,4 +43,4 @@ any other command and all devices that are in signal range will act upon command
 doing it is highly illegal
 
 ### Demo video:
-<video src="/images/demo.mp4" width="320" height="240" controls></video>
+<video src="https://github.com/NustyFrozen/SDR-RC-for-Star-ceiling-fan-and-vuln/images/demo.mp4" width="320" height="240" controls></video>
