@@ -5,7 +5,9 @@
 
 ### I've recorded the whole functionality of star's remote and here what i decoded using URH ([Universal Radio Hacker](https://github.com/jopohl/urh)):
 <br>
-Modulation: ASK (Amplitude Shift Keying)
+Modulation: ASK/OOK (Amplitude Shift Keying/ON-OFF Keying)
+<br>
+Frequency: 433.92M (common unlicensed frequency for garage remote/car remote/iot...)
 <br>
 
 ``` py
@@ -32,9 +34,13 @@ struct Command {
 ```
 it is weirdly not 8 bit command size
 <br>
-## Vulnerabilities In The Protocol
-### Simple RF replay attack
+## Vulnerabilities In This Protocol
+### RF replay attack
 the messages are static therfore a simple replay attack works just fine as long as you paired the serial
 <br>
-in theory you can just broadcast at high dBm pair command and then <br>
-any other command and all devices that are in signal range will act upon command
+in theory you can just broadcast at high dBm the pair command and then <br>
+any other command and all devices that are in signal range will act upon command<br>
+doing it is highly illegal
+
+### Demo video:
+[![demo.mp4](/images/remote.jpg)](/images/demo.mp4)

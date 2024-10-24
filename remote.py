@@ -49,17 +49,18 @@ from gnuradio import soapy
 
 from gnuradio import qtgui
 
-class test(gr.top_block, Qt.QWidget):
+
+class ASK(gr.top_block, Qt.QWidget):
 
     def __init__(self,hexCommand):
-        gr.top_block.__init__(self, "Not titled yet", catch_exceptions=True)
+        gr.top_block.__init__(self, "Simple ASK", catch_exceptions=True)
         Qt.QWidget.__init__(self)
-        self.setWindowTitle("Not titled yet")
+        self.setWindowTitle("Simple ASK")
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -72,15 +73,14 @@ class test(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "test")
+        self.settings = Qt.QSettings("GNU Radio", "ASK")
 
         try:
-            if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
-                self.restoreGeometry(self.settings.value("geometry").toByteArray())
-            else:
-                self.restoreGeometry(self.settings.value("geometry"))
-        except:
-            pass
+            geometry = self.settings.value("geometry")
+            if geometry:
+                self.restoreGeometry(geometry)
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
         # Variables
@@ -92,23 +92,24 @@ class test(gr.top_block, Qt.QWidget):
         ##################################################
         # Blocks
         ##################################################
-        self.soapy_hackrf_sink_0 = None
+
+        self.soapy_hackrf_sink_2 = None
         dev = 'driver=hackrf'
         stream_args = ''
         tune_args = ['']
         settings = ['']
 
-        self.soapy_hackrf_sink_0 = soapy.sink(dev, "fc32", 1, '',
+        self.soapy_hackrf_sink_2 = soapy.sink(dev, "fc32", 1, '',
                                   stream_args, tune_args, settings)
-        self.soapy_hackrf_sink_0.set_sample_rate(0, samp_rate)
-        self.soapy_hackrf_sink_0.set_bandwidth(0, 0)
-        self.soapy_hackrf_sink_0.set_frequency(0, center_freq)
-        self.soapy_hackrf_sink_0.set_gain(0, 'AMP', True)
-        self.soapy_hackrf_sink_0.set_gain(0, 'VGA', min(max(35, 0.0), 47.0))
+        self.soapy_hackrf_sink_2.set_sample_rate(0, samp_rate)
+        self.soapy_hackrf_sink_2.set_bandwidth(0, 0)
+        self.soapy_hackrf_sink_2.set_frequency(0, center_freq)
+        self.soapy_hackrf_sink_2.set_gain(0, 'AMP', True)
+        self.soapy_hackrf_sink_2.set_gain(0, 'VGA', min(max(26, 0.0), 47.0))
         self.qtgui_time_sink_x_0_0 = qtgui.time_sink_c(
             1024, #size
             samp_rate, #samp_rate
-            "tut", #name
+            "test", #name
             1, #number of inputs
             None # parent
         )
@@ -154,74 +155,22 @@ class test(gr.top_block, Qt.QWidget):
             self.qtgui_time_sink_x_0_0.set_line_marker(i, markers[i])
             self.qtgui_time_sink_x_0_0.set_line_alpha(i, alphas[i])
 
-        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.pyqwidget(), Qt.QWidget)
+        self._qtgui_time_sink_x_0_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_time_sink_x_0_0_win)
-        self.qtgui_time_sink_x_0 = qtgui.time_sink_c(
-            8192, #size
-            samp_rate, #samp_rate
-            "", #name
-            1, #number of inputs
-            None # parent
-        )
-        self.qtgui_time_sink_x_0.set_update_time(0.10)
-        self.qtgui_time_sink_x_0.set_y_axis(-1, 1)
-
-        self.qtgui_time_sink_x_0.set_y_label('Amplitude', "")
-
-        self.qtgui_time_sink_x_0.enable_tags(True)
-        self.qtgui_time_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, 0, "")
-        self.qtgui_time_sink_x_0.enable_autoscale(True)
-        self.qtgui_time_sink_x_0.enable_grid(False)
-        self.qtgui_time_sink_x_0.enable_axis_labels(True)
-        self.qtgui_time_sink_x_0.enable_control_panel(False)
-        self.qtgui_time_sink_x_0.enable_stem_plot(False)
-
-
-        labels = ['Signal 1', 'Signal 2', 'Signal 3', 'Signal 4', 'Signal 5',
-            'Signal 6', 'Signal 7', 'Signal 8', 'Signal 9', 'Signal 10']
-        widths = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ['blue', 'red', 'green', 'black', 'cyan',
-            'magenta', 'yellow', 'dark red', 'dark green', 'dark blue']
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-        styles = [1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        markers = [-1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1]
-
-
-        for i in range(2):
-            if len(labels[i]) == 0:
-                if (i % 2 == 0):
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Re{{Data {0}}}".format(i/2))
-                else:
-                    self.qtgui_time_sink_x_0.set_line_label(i, "Im{{Data {0}}}".format(i/2))
-            else:
-                self.qtgui_time_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_time_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_time_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_time_sink_x_0.set_line_style(i, styles[i])
-            self.qtgui_time_sink_x_0.set_line_marker(i, markers[i])
-            self.qtgui_time_sink_x_0.set_line_alpha(i, alphas[i])
-        #message = []
-        #integer = int(messageHex, 16)
-        #bin = format(integer, '0>74b') # a command has 74 bit of binary
-        #for c in bin:
-        #    print(c,end='')
-        #    message.append(int(c)) #appending the binary format to 1 and 0s for the vector message
+        message = []
+        integer = int(hexCommand, 16)
+        bin = format(integer, '0>74b')  #a command has 74 bit of binary
+        for c in bin:
+            message.append(int(c)) #appending the binary format to 1 and 0s for the vector message
         
         #requires delay for each command send so delay = 1900 * 4
-        #for i in range(0,8):
-        #    message.append(0)
-        #return message
-        self._qtgui_time_sink_x_0_win = sip.wrapinstance(self.qtgui_time_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.top_layout.addWidget(self._qtgui_time_sink_x_0_win)
-        self.blocks_vector_source_x_0 = blocks.vector_source_c([1,0,0,1,0,1,1,0,1,1,0,1,1,0,0,1,0,1,1,0,0,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,1,1,0,0,1,0,1,1,0,1,1,0,1,1,0,1,1,0,0,0,0,0,0,0], True, 1, [])
+        for i in range(0,8):
+            message.append(0)
+        print("built vector " + str(message))
+        self.blocks_vector_source_x_0 = blocks.vector_source_c(message, True, 1, [])
         self.blocks_repeat_0 = blocks.repeat(gr.sizeof_gr_complex*1, sps)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
-        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 40e3, 1, 0, 0)
-
+        self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 22.102355957e3, 1, 0, 0)
 
 
         ##################################################
@@ -229,14 +178,13 @@ class test(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))
         self.connect((self.blocks_multiply_xx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
-        self.connect((self.blocks_multiply_xx_0, 0), (self.soapy_hackrf_sink_0, 0))
+        self.connect((self.blocks_multiply_xx_0, 0), (self.soapy_hackrf_sink_2, 0))
         self.connect((self.blocks_repeat_0, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_vector_source_x_0, 0), (self.blocks_repeat_0, 0))
-        self.connect((self.blocks_vector_source_x_0, 0), (self.qtgui_time_sink_x_0, 0))
 
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "test")
+        self.settings = Qt.QSettings("GNU Radio", "ASK")
         self.settings.setValue("geometry", self.saveGeometry())
         self.stop()
         self.wait()
@@ -256,16 +204,17 @@ class test(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.analog_sig_source_x_0.set_sampling_freq(self.samp_rate)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.samp_rate)
         self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
-        self.soapy_hackrf_sink_0.set_sample_rate(0, self.samp_rate)
+        self.soapy_hackrf_sink_2.set_sample_rate(0, self.samp_rate)
 
     def get_center_freq(self):
         return self.center_freq
 
     def set_center_freq(self, center_freq):
         self.center_freq = center_freq
-        self.soapy_hackrf_sink_0.set_frequency(0, self.center_freq)
+        self.soapy_hackrf_sink_2.set_frequency(0, self.center_freq)
+
+
         
 
 
@@ -287,7 +236,7 @@ if __name__ == '__main__':
                            "'FAN-OFF' Turn off the fan")
     options, _ = parser.parse_args()
     if(all(c in string.hexdigits for c in options.serial) == False | len(options.serial) != 12):
-        parser.error('invalid 12 digit hex serial at' + options.serial)
+        parser.error('invalid 12 digit hex serial at ' + options.serial)
     #messageProtocol = serial
     messageProtocol = str(options.serial)
 
@@ -316,7 +265,7 @@ if __name__ == '__main__':
             Qt.QApplication.setGraphicsSystem(style)
         qapp = Qt.QApplication(sys.argv)
 
-        tb = test(hexCommand=messageProtocol)
+        tb = ASK(hexCommand=messageProtocol)
 
         tb.start()
 
