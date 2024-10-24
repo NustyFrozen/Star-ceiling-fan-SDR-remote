@@ -1,4 +1,4 @@
-# RF Protocol for Star 7 ceiling fan's remote
+# RF Protocol for Star 7 celling fan's remote
 ### the rf protocol that the israel company "star" uses for their celling fans
 ![](./images/remote.jpg "star remote control")
 
