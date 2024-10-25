@@ -43,7 +43,7 @@ it is weirdly not 8 bit command size
 the messages are static therfore a simple replay attack works just fine as long as you paired the serial
 <br>
 in theory you can just broadcast at high dBm the pair command and then <br>
-any other command and all devices that are in signal range will act upon command<br>
+any other command and all devices that are in signal range (including ones you don't own) will act upon command<br>
 doing it is highly illegal
 
 ```
