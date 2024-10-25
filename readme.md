@@ -49,7 +49,7 @@ doing it is highly illegal
 ```
 remote.py -s SERIAL -c COMMAND
 serial - 12 hex valid serial
-command that you want to use (FAN-X (x = 3,2,1),OFF,ON,FAN-OFF)
+command that you want to use (PAIR,OFF,ON,FAN-X (x = 3,2,1),FAN-OFF)
 ```
 ### Demo video (remote.py):
 https://github.com/user-attachments/assets/ab601ba2-17d4-462f-936e-2c2cabefd04a
