@@ -46,6 +46,11 @@ in theory you can just broadcast at high dBm the pair command and then <br>
 any other command and all devices that are in signal range will act upon command<br>
 doing it is highly illegal
 
-### Demo video:
+```
+remote.py -s SERIAL -c COMMAND
+serial - 12 hex valid serial
+command that you want to use (FAN-X (x = 3,2,1),OFF,ON,FAN-OFF)
+```
+### Demo video (remote.py):
 https://github.com/user-attachments/assets/ab601ba2-17d4-462f-936e-2c2cabefd04a
 
